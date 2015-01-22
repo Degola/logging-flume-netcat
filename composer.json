@@ -1,0 +1,21 @@
+{
+    "name": "slc/logging-flume-netcat",
+    "description": "Flume net-cat driver",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Sebastian Lagemann",
+            "email": "sebastian@iqu.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "slc\\logging\\flume\\": "src/"
+        }
+    }
+
+}
