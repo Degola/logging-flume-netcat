@@ -51,8 +51,7 @@ class Netcat {
 		if(is_null($timestamp))
 			$timestamp = time();
 
-		$handlers = $this->getConnection();
-		return $this->getConnection()->addLogEntry($timestamp.' '.$data, $handlers);
+		return $this->getConnection()->addLogEntry($timestamp.' '.$data);
 	}
 
 	/**

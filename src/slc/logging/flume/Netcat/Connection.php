@@ -114,6 +114,7 @@ class Netcat_Connection {
 				echo "done. (".number_format(microtime(true) - $s, 5)."s)\n";
 			}
 		}
+		return $handlers;
 	}
 
 	/**
@@ -191,7 +192,7 @@ class Netcat_Connection {
 		if(!is_scalar($data)) {
 			$data = json_encode($data);
 		}
-		$this->send($data, $handlers);
+		$handlers = $this->send($data, $handlers);
 		$result = $this->receive(null, $handlers, 'OK');
 
 		if(isset($result[0]) && $result[0] instanceof Netcat_Packet) {
