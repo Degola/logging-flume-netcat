@@ -28,6 +28,12 @@ class Netcat {
 		if(!isset($this->config->Connections)) {
 			$this->config->Connections = 1;
 		}
+		if(!isset($this->config->SocketConnectTimeout)) {
+			$this->config->SocketConnectTimeout = 1;
+		}
+		if(!isset($this->config->ReconnectTries)) {
+			$this->config->ReconnectTries = 3;
+		}
 	}
 
 	/**
@@ -41,7 +47,9 @@ class Netcat {
 			$this->Connection = new Netcat_Connection(
 				$this->config->Host,
 				$this->config->Port,
-				$this->config->Connections
+				$this->config->Connections,
+				$this->config->SocketConnectTimeout,
+				$this->config->ReconnectTries
 			);
 		}
 		return $this->Connection;

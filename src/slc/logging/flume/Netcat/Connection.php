@@ -10,13 +10,17 @@ class Netcat_Connection {
 	const CRLF  = "\n";
 	protected $host;
 	protected $port         = 6000;
+	protected $socketConnectTimeout = 1;
+	protected $reconnectTries = 3;
 	protected $handlers     = array();
 	protected $lastCommands = array();
 	protected $onReconnect  = null;
 
-	public function __construct($host, $port=6000, $connections = 1) {
+	public function __construct($host, $port=6000, $connections = 1, $socketConnectTimeout = 1, $reconnectTries = 3) {
 		$this->host = $host;
 		$this->port = $port;
+		$this->socketConnectTimeout = $socketConnectTimeout;
+		$this->reconnectTries = $reconnectTries;
 		for($i = 0; $i < $connections; $i++) {
 			if(Netcat_Connection::DEBUG) {
 				echo "open connection ".($i)."...";
@@ -53,11 +57,11 @@ class Netcat_Connection {
 					'port' => isset($this->port) ? $this->port : 'undefined',
 				));
 			}
-			$this->handlers[$id] = @fsockopen($this->host, $this->port, $errorNumber, $errorString, 5);
+			$this->handlers[$id] = @fsockopen($this->host, $this->port, $errorNumber, $errorString, $this->socketConnectTimeout);
 			if($this->isConnected($id)) {
 				stream_set_blocking($this->handlers[$id], 0);
 			} else {
-				if ($reconnectCounter > 3) {
+				if ($reconnectCounter > $this->reconnectTries) {
 					throw new Netcat_Exception('CONNECTION_FAILED', array(
 						'host' => $this->host,
 						'port' => $this->port,
